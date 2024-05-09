@@ -1,0 +1,129 @@
+Langkah pertama adalah pemanggilang library yang akan digunakan seperti
+untuk analisis data, visualisasi, dan machine learning. Antara laint numpy,
+panda,matplotlib, dan keras(bagian dari tensorflow)
+
+
+Fungsi series_to_supervised digunakan untuk mengonversi data waktu menjadi
+format supervised learning. dimana deret waktu diatur sebagai fitur input dan
+output yang diinginkan diwakili sebagai target outputnya.
+pada function ini kita menggunakan library pandas untuk struktur data melalui
+fungsi dataframe
+
+
+Membaca dan menyiapkan dataset dari file DataSetSensor Kel2, kemudian kolom tanggal
+dan waktu digabungkan menjadi satu kolom 'datetime' dan dikonversi ke format 
+datetime. 
+
+Proses normalisasi pada suhu dan kelembapan menggunakan skala minimal dan maksimal.
+kemudian dataset diubah menjadi supervised learning dengan memanggil function
+series_to_supervised
+
+#prepare temperature dataset
+Reframing the temperatur data digunakan untuk mengubah urutan waktu menjadi
+pasangan input dan output yang sesuai untuk pelatihan model. Proses ini melibatkan
+pengaturan ulang urutan waktu menjadi format dataset supervisi
+
+Split data yang diolah menjadi set pelatihan terdiri dari 75% data pertama dan
+set pengujian terdiri dari 25% data yang tersisa
+
+Pemisahan input dan output yang mana kolom pada input adalah semua kecuali kolom
+terakhir yaitu digunakan untuk outputnya
+
+Reshape data menjadi jumlahsampel,jumlahtimestep,jumlahfitur
+
+#design and train LSTM model for temperature
+berikutnya proses implementasi pembuatan dan pelatihan model LSTM untuk prediksi
+suhu berdasarkan data waktu sebelumnya. Bada bagian tersebut menambahkan lapisan
+LSTM ke model dengan 150unit LSTM dan menentukan bentuk input yang sesuai dengan
+data pelatihan. lalu pada lapisan dense dengan satu unit timbahkan untuk 
+menghasilkan prediksi suhu. Selanjutnya model dikompilasi dengan fungsi loss yang
+diatur sebagai Mean Absolute Error dan optimizer adam. MAE adalah metrik umum
+yang digunakan untuk masalah regresi dan merupakan nilai absolut dari selisih
+antara prediksi dan target. terakhit informasi pelatihan(seperti loss dan metrik
+validasi) aan disimpan dalam variabel history untuk analisis performa model 
+
+#makepredictionfortemperature
+Berikutnya adalah prsoes model LSTM untuk menghasilkan prediksi suhu. Jadi pertama
+kita lakukan perubahan data ke dalam skala asli menggunakan transformasi inverse
+scaler('scaler_tempertature). train_x_temperatur digunakan untuk membentuk ulang 
+asli data.
+Transformasi inverse pada label pelatihan yang mana diubah kembali ke dalam skala
+asli dengam menggunakan transformasi inverse scaler. 
+Hal ini dilakukan sebanyak 2kali karena untuk meningkatkan presentasi nilai
+prediksi agar sesuai dengan data yang diinginkan.
+
+
+
+#prepare humidity dataset
+Reframing the temperatur data digunakan untuk mengubah urutan waktu menjadi
+pasangan input dan output yang sesuai untuk pelatihan model. Proses ini melibatkan
+pengaturan ulang urutan waktu menjadi format dataset supervisi
+
+Split data yang diolah menjadi set pelatihan terdiri dari 75% data pertama dan
+set pengujian terdiri dari 25% data yang tersisa
+
+Pemisahan input dan output yang mana kolom pada input adalah semua kecuali kolom
+terakhir yaitu digunakan untuk outputnya
+
+Reshape data menjadi jumlahsampel,jumlahtimestep,jumlahfitur
+
+#design and train LSTM model for humidity
+berikutnya proses implementasi pembuatan dan pelatihan model LSTM untuk prediksi
+suhu berdasarkan data waktu sebelumnya. Bada bagian tersebut menambahkan lapisan
+LSTM ke model dengan 150unit LSTM dan menentukan bentuk input yang sesuai dengan
+data pelatihan. lalu pada lapisan dense dengan satu unit timbahkan untuk 
+menghasilkan prediksi suhu. Selanjutnya model dikompilasi dengan fungsi loss yang
+diatur sebagai Mean Absolute Error dan optimizer adam. MAE adalah metrik umum
+yang digunakan untuk masalah regresi dan merupakan nilai absolut dari selisih
+antara prediksi dan target. terakhit informasi pelatihan(seperti loss dan metrik
+validasi) aan disimpan dalam variabel history untuk analisis performa model 
+
+#makepredictionforhumidity
+Berikutnya adalah prsoes model LSTM untuk menghasilkan prediksi suhu. Jadi pertama
+kita lakukan perubahan data ke dalam skala asli menggunakan transformasi inverse
+scaler('scaler_tempertature). train_x_temperatur digunakan untuk membentuk ulang 
+asli data.
+Transformasi inverse pada label pelatihan yang mana diubah kembali ke dalam skala
+asli dengam menggunakan transformasi inverse scaler. 
+Hal ini dilakukan sebanyak 2kali karena untuk meningkatkan presentasi nilai
+prediksi agar sesuai dengan data yang diinginkan.
+
+# Plot Model Loss for humidity # Plot Model Loss for temperature
+Selanjutnya proses plot loss model dari temperature dan humidity untuk 
+menampilkan loss pada set pelatihan dan validasi diplot sebagai fungsi dari epoch
+
+setelah melihat data plot kita akan mengetahui bagaimana sih hasil data yang
+didapatkan selama pelatihan apakah prediksi sudah sesuai dengan nilai target, 
+nah nanti akan kami tampilkan bahwa data prediksi sudah terbilang bagus.
+
+# Calculate RMSE for temperature and humidity
+selanjutnya kami memilih menggunakan metode perhitungan RMSE(Root Mean Squared
+Error) untuk nilai prediksi dari model LSTM pada data suhu dan kelembaban yang
+sudah dibuat. RMSE ini adalah metrik evaluasi yang mengukur seberapa baik prediksi
+model mendekati nilai sebenarnya.
+Jadi langkah pertama kita panggil fungsi MSE antara nilai sebenarnya dan prediksi
+untuk suhu pada data pelatihan, lalu kita hitung juga RMSE untuk suhu pada data
+pengujian, lalu kita hitung juga pada data pelatihan dan pengujian untuk kelembaban
+sehingga hasil RMSE apabila kita jalankan nanti sejauh mana prediksi model mendekati
+nilai sebenarnya, jadi apabila nilai semakin rendah maka semakin baik model dapat
+memprediksi data.
+
+
+# Plot the results for temperature
+Terakhir menampilkankan grafik dari data pengujian dan pelatihan serta prediksi
+untuk mendapatkan data yang diinginkan
+jadi langkah pertama kita menambahkan variabel x0 dan x1 untuk membagi sumbu x
+pada grafik antara data pelatihan dan data pengujian
+lalu subplot untuk suhu dan kelembaban dengan ukuran sebesar 10x8.
+berikutnya plot suhu dan kelembaban untuk menampilkan data suhu aktual dan 
+prediksi suhu.
+Jadi grafik nanti akan memberikan visualisasi perbandingan antara data aktual dan
+prediksi suhu dan kelembabapan pada data pengujian.
+
+Baik mungkin itu yang bisa saya sampaikan terkait program pengolahan data prediksi
+dan data aktual selanjutnya terkait hasil pengujian akan disampaikan mas Rizky
+
+
+
+
+
